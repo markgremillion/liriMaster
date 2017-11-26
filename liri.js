@@ -21,7 +21,7 @@ var spotify = new Spotify({
 
 
   var Twitter = require('twitter');
-  
+  // I couldn't get the export keys to work, so i just put it in the app itself to get it to work
  var client = new Twitter({
    consumer_key: "NIZb9OnYxyBDarU7GEAxs4iQj",
    consumer_secret: "wPrP1yThqSOQTDsvwuEmT5uMyaRgqwBnEXK8AJGOdOt7CLHz5s",
@@ -30,12 +30,7 @@ var spotify = new Spotify({
  });
  console.log(client.consumer_key)
   
-//  var params = {screen_name: 'nodejs'};
-//  client.get('statuses/user_timeline', params, function(error, tweets, response) {
-//    if (!error) {
-//      console.log(tweets);
-//    }
-//  });
+
 
 
 
@@ -72,49 +67,30 @@ function liriMovie(){
     })
 }
 
-
+// I get it to pull up the information, but whenever I use a for loop, it won't give me the correct information
 function liriSong(){
     var songName = process.argv[3]
-    spotify.search({ type: 'artist', query: "drake" }, function(err, data) {
+    spotify.search({ type: 'track', query: songName }, function(err, data) {
         if (err) {
           return console.log('Error occurred: ' + err);
         }
        
-      console.log(data); 
+      console.log(data.tracks.items[0]); 
+      var songs = data.tracks.items;
+
       });
 
 }
 
 function liriTwitter(){
-    // client.get('favorites/list', function(error, tweets, response) {
-    //     // if(error) throw error;
-    //     console.log(tweets);  // The favorites. 
-    //     console.log(response);  // Raw response object. 
-    //   });
-
-    //   client.post('statuses/update', {status: 'I Love Twitter'},  function(error, tweet, response) {
-    //     if(error) throw error;
-    //     console.log(tweet);  // Tweet body. 
-    //     console.log(response);  // Raw response object. 
-    //   });
-
-      var stream = client.stream('statuses/filter', {track: 'javascript'});
-      stream.on('data', function(event) {
-        console.log(event && event.text);
-      });
-       
-      stream.on('error', function(error) {
-        throw error;
-      });
-       
-      // You can also get the stream in a callback if you prefer. 
-      client.stream('statuses/filter', {track: 'javascript'}, function(stream) {
-        stream.on('data', function(event) {
-          console.log(event && event.text);
-        });
-       
-        stream.on('error', function(error) {
-          throw error;
-        });
-      });
+// after 15 hours of trying different things, setting up multiple accounts, ect, following the video exactly how they had it, 
+//I still couldn't get this to work. Very frustrating 
+    var params = {screen_name: 'MarkLiri'};
+    client.get('statuses/user_timeline', params, function(error, tweets, response) {
+      if (!error) {
+        console.log(tweets);
+        console.log(tweets.text)
+      }
+    });
+    
 }
